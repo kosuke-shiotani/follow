@@ -1,0 +1,13 @@
+<h1>トップページだよ</h1>
+
+<%= link_to "ログイン", users_path %>
+<%= link_to "新規登録", new_user_registration_path %>
+
+<% if user_signed_in? %>
+<div>
+  <%= button_to 'ログアウト', destroy_user_session_path, method: :delete %>
+</div>
+<% end %>
+
+
+

@@ -1,0 +1,36 @@
+<% unless current_user == @user %>
+
+  <% if current_user.following?(@user) %>
+    <%= form_for(current_user.relationships.find_by(follow_id: @user.id), html: { method: :delete }) do |f| %>
+      <%= hidden_field_tag :follow_id, @user.id %>
+      <p><%= @user.email %></p>
+      <%= f.submit 'Unfollow', class: 'btn btn-danger btn-block' %>
+    <% end %>
+  <% else %>
+    <%= form_for(current_user.relationships.build) do |f| %>
+      <%= hidden_field_tag :follow_id, @user.id %>
+      <p><%= @user.email %></p>
+      <%= f.submit 'Follow', class: 'btn btn-primary btn-block' %>
+    <% end %>
+  <% end %>
+
+<% end %>
+
+<% if current_user == @user %>
+
+  <h1>マイページ</h1>
+  <p>フォローされているユーザー</p>
+  <% @follower.each do |u| %>
+    <div>
+      <%= link_to u.email, user_path(u.id) %>
+    </div>
+  <% end %>
+
+  <p>フォローしているユーザー</p>
+  <% @following.each do |u| %>
+    <div>
+      <%= link_to u.email, user_path(u.id) %>
+    </div>
+  <% end %>
+
+<% end %>
